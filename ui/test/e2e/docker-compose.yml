@@ -5,7 +5,7 @@ services:
     profiles:
       - synpress
     container_name: synpress
-    build: ../..
+    build: ../../..
     environment:
       - DISPLAY=display:0.0
       - CYPRESS_PRIVATE_KEY_WITH_FUNDS=${CYPRESS_PRIVATE_KEY_WITH_FUNDS}
@@ -14,14 +14,14 @@ services:
       - GH_PAT=${GH_PAT}
       - GH_USERNAME=${GH_USERNAME}
       - CI=${CI}
-      # Cypress Dashboard
+      # cypress dashboard
       - CYPRESS_GROUP=${CYPRESS_GROUP}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
       - CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
       - COMMIT_INFO_MESSAGE=${COMMIT_INFO_MESSAGE}
       - COMMIT_INFO_SHA=${COMMIT_INFO_SHA}
-      # CI variables
+      # passing required CI variables
       - GITHUB_ACTIONS=${GITHUB_ACTIONS}
       - GITHUB_WORKFLOW=${GITHUB_WORKFLOW}
       - GITHUB_ACTION=${GITHUB_ACTION}
@@ -37,13 +37,15 @@ services:
       - SECRET_WORDS="orbit bench unit task food shock brand bracket domain regular warfare company announce wheel grape trust sphere boy doctor half guard ritual three ecology"
     depends_on:
       - display
+      - video
+      - agd
     entrypoint: []
     working_dir: /app
     volumes:
       - ./cypress/videos:/app/test/e2e/videos
       - ./cypress/screenshots:/app/test/e2e/screenshots
     command: >
-      bash -c 'echo -n "======> local noVNC URL: http://localhost:8080/vnc.html?autoconnect=true " && yarn wait-on http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && yarn test:e2e:ci'
+      bash -c 'echo -n "======> local noVNC URL: http://localhost:8080/vnc.html?autoconnect=true " && yarn wait-on http://display:8080 && echo -n "======> remote noVNC URL: " && curl -s ngrok:4040/api/tunnels | jq -r .tunnels[0].public_url && nginx && yarn test:e2e:ci'
     networks:
       - x11
 
@@ -74,6 +76,40 @@ services:
       - NGROK_BASIC_AUTH=${NGROK_BASIC_AUTH}
     depends_on:
       - display
+    networks:
+      - x11
+
+  video:
+    profiles:
+      - synpress
+    container_name: video
+    image: synthetixio/video:457bb48776c3b14de232d9dda620ba9188dc40ac-base
+    volumes:
+      - ./cypress/videos-ci:/videos
+    environment:
+      - FILE_NAME=CI-full-video.mp4
+      - SE_SCREEN_WIDTH=1920
+      - SE_SCREEN_HEIGHT=1080
+    depends_on:
+      - display
+    networks:
+      - x11
+
+  agd:
+    profiles:
+      - synpress
+    container_name: agoric_chain
+    image: ghcr.io/agoric/agoric-3-proposals:main
+    logging:
+      driver: none
+    platform: linux/amd64
+    ports:
+      - 26656:26656
+      - 26657:26657
+      - 1317:1317
+    environment:
+      DEST: 1
+      DEBUG: 'SwingSet:ls,SwingSet:vat'
     networks:
       - x11
 
