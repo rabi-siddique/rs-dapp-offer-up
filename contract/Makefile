@@ -101,7 +101,7 @@ start-contract: $(SCRIPT) $(PERMIT) install-bundles
 	scripts/propose-start-contract.sh
 
 install-bundles: bundles/bundle-list
-	./scripts/install-bundles.sh
+	scripts/install-bundles.sh
 
 build-proposal: bundles/bundle-list
 

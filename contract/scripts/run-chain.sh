@@ -54,6 +54,17 @@ approveProposals() {
     done
 }
 
+sendFunds() {
+  echo "Sending Funds....."
+  src=agoric1t83za2h5zc5anmkxvfag82qafshr538mvzmnmx
+  dest=agoric1p2aqakv3ulz4qfy2nut86j9gx0dx0yw09h96md
+  amt=55535300uist
+
+  agd tx bank send $src $dest $amt --keyring-backend=test --chain-id=agoriclocal \
+  --gas=auto --gas-adjustment=1.2 --yes -b block
+  echo "Funds sent successfully...."
+}
+
 # Start the chain in the background
 /usr/src/upgrade-test-scripts/start_agd.sh &
 
@@ -63,8 +74,12 @@ waitForBlock 2
 # Approve any proposals forever in the background.
 approveProposals &
 
+# Send funds to local e2e testing wallet address
+sendFunds
+
 make -C /workspace/contract mint100
 make -C /workspace/contract lower-bundle-cost
+make -C /workspace/contract clean start-contract
 
 # bring back chain process to foreground
 wait
