@@ -40,6 +40,7 @@
     "docker:logs": "cd contract; docker compose logs --tail 200 -f",
     "docker:bash": "cd contract; docker compose exec agd bash",
     "docker:make": "cd contract; docker compose exec agd make -C /workspace/contract",
+    "send-funds": "cd contract && yarn send-funds",
     "make:help": "make -C contract list",
     "start:contract": "cd contract && yarn start",
     "start:ui": "cd ui && yarn dev",

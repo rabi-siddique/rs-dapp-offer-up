@@ -3,10 +3,7 @@
 describe('DAPP Offer Up E2E Test Cases', () => {
   context('Test commands', () => {
     it(`should complete Keplr setup by  importing an existing wallet using 24 word phrase`, () => {
-      cy.setupWallet({
-        secretWords:
-          'spike siege world rather ordinary upper napkin voice brush oppose junior route trim crush expire angry seminar anchor panther piano image pepper chest alone',
-      }).then(setupFinished => {
+      cy.setupWallet().then(setupFinished => {
         expect(setupFinished).to.be.true;
       });
       cy.visit('/');
