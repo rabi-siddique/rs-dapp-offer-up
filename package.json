@@ -49,7 +49,7 @@
     "build": "yarn workspaces run build"
   },
   "devDependencies": {
-    "@agoric/synpress": "^3.8.1-beta.1",
+    "@agoric/synpress": "^3.8.1",
     "eslint-config-turbo": "^1.13.0",
     "eslint-plugin-chai-friendly": "^0.7.4",
     "eslint-plugin-cypress": "^2.15.1",
