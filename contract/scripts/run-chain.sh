@@ -88,11 +88,11 @@ waitForBlock 2
 # Approve any proposals forever in the background.
 approveProposals &
 
-sendFunds
+# sendFunds
 
 make -C /workspace/contract mint100
 make -C /workspace/contract lower-bundle-cost
-make -C /workspace/contract clean start-contract
+# make -C /workspace/contract clean start-contract
 
 # bring back chain process to foreground
 wait

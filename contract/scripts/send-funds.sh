@@ -1,5 +1,5 @@
 src=agoric1t83za2h5zc5anmkxvfag82qafshr538mvzmnmx
-dest=agoric1p2aqakv3ulz4qfy2nut86j9gx0dx0yw09h96md
+dest=agoric1ydzxwh6f893jvpaslmaz6l8j2ulup9a7x8qvvq
 amt=5553530000uist
 
 agd tx bank send $src $dest $amt --keyring-backend=test --chain-id=agoriclocal \
