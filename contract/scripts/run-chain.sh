@@ -60,9 +60,23 @@ sendFunds() {
   dest=agoric1p2aqakv3ulz4qfy2nut86j9gx0dx0yw09h96md
   amt=55535300uist
 
+  echo "Sending ISTs"
   agd tx bank send $src $dest $amt --keyring-backend=test --chain-id=agoriclocal \
   --gas=auto --gas-adjustment=1.2 --yes -b block
-  echo "Funds sent successfully...."
+  echo "ISTs sent successfully"
+
+  amt=331000ubld
+  echo "Sending BLDs"
+  agd tx bank send $src $dest $amt --keyring-backend=test --chain-id=agoriclocal \
+  --gas=auto --gas-adjustment=1.2 --yes -b block
+  echo "BLDs sent successfully"
+
+  amt=9ibc/BA313C4A19DFBF943586C0387E6B11286F9E416B4DD27574E6909CABE0E342FA
+  echo "Sending ATOMs"
+  agd tx bank send $src $dest $amt --keyring-backend=test --chain-id=agoriclocal \
+  --gas=auto --gas-adjustment=1.2 --yes -b block
+  echo "ATOMs sent successfully"
+
 }
 
 # Start the chain in the background
